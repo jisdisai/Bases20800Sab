@@ -1,5 +1,5 @@
 /* 
-        1. Bloques Anónimos
+        1. Bloques Anï¿½nimos
             a. Construir un bloque anonimo donde se declare un cursor y que imprima el
             nombre y sueldo de los empleados (utilice la tabla employees). Si durante el
             recorrido aparece el nombre Peter Tucker (el jefe) se debe genera un
@@ -26,8 +26,8 @@ END;
 
 /*
 
-        b. Crear un cursor con parámetros para el parametro id de departamento e
-            imprima el numero de empleados de ese departamento (utilice la claúsula
+        b. Crear un cursor con parï¿½metros para el parametro id de departamento e
+            imprima el numero de empleados de ese departamento (utilice la claï¿½sula
             count).
             
 */
@@ -80,20 +80,20 @@ END ;
 /*
 
     2. Funciones
-        a. Crear una función llamada CREAR_REGION
+        a. Crear una funciï¿½n llamada CREAR_REGION
         
-        • A la función se le debe pasar como parámetro un nombre de región y
-        debe devolver un número, que es el código de región que calculamos
-        dentro de la función.
-        • Se debe crear una nueva fila con el nombre de esa REGION
-        • El código de la región se debe calcular de forma automática. Para ello se
-        debe averiguar cual es el código de región más alto que tenemos en la
+        ï¿½ A la funciï¿½n se le debe pasar como parï¿½metro un nombre de regiï¿½n y
+        debe devolver un nï¿½mero, que es el cï¿½digo de regiï¿½n que calculamos
+        dentro de la funciï¿½n.
+        ï¿½ Se debe crear una nueva fila con el nombre de esa REGION
+        ï¿½ El cï¿½digo de la regiï¿½n se debe calcular de forma automï¿½tica. Para ello se
+        debe averiguar cual es el cï¿½digo de regiï¿½n mï¿½s alto que tenemos en la
         tabla en ese momento, le sumamos 1 y el resultado lo ponemos como el
-        código para la nueva región que estamos creando
-        • Debemos controlar los errores en caso que se genere un problema
-        • La función debe devolver el número/ código que ha asignado a la
-        región.
-        • En el script debe colocar la funcion y el bloque para llamar la función.
+        cï¿½digo para la nueva regiï¿½n que estamos creando
+        ï¿½ Debemos controlar los errores en caso que se genere un problema
+        ï¿½ La funciï¿½n debe devolver el nï¿½mero/ cï¿½digo que ha asignado a la
+        regiï¿½n.
+        ï¿½ En el script debe colocar la funcion y el bloque para llamar la funciï¿½n.
 
 */
 
@@ -106,7 +106,7 @@ BEGIN
 
     SELECT REGION_NAME INTO NOM_REGION FROM REGIONS
     WHERE REGION_NAME=UPPER(NOMBRE);
-    raise_application_error(-20321,'Esta región ya existe!');
+    raise_application_error(-20321,'Esta regiï¿½n ya existe!');
     
     EXCEPTION
     
@@ -125,5 +125,58 @@ N_REGION:=crear_region('NORMANDIA');
 DBMS_OUTPUT.PUT_LINE('EL NUMERO ASIGNADO ES:'||N_REGION);
 END;
 
+/*
+
+    3. Procedimientos
+        a. Construya un procedimiento almacenado que haga las operaciones de una
+        calculadora, por lo que debe recibir tres parametros de entrada, uno que
+        contenga la operaciÃ³n a realizar (SUMA, RESTA, MULTIPLICACION,
+        DIVISION), num1, num2 y declare un parametro de retorno e imprima el
+        resultado de la operaciÃ³n. Maneje posibles excepciones.
+
+*/
 
 
+
+
+
+
+CREATE OR REPLACE PROCEDURE calc_2 
+(   numero1        IN NUMBER,
+    numero2        IN NUMBER,
+    operacion   IN NUMBER,
+    resultado   OUT NUMBER)
+IS
+BEGIN
+    IF operacion = 1 THEN 
+        resultado:=numero1+numero2;
+    END IF;
+    IF operacion = 2 THEN 
+        resultado:=numero1-numero2;
+    END IF;
+    IF operacion = 3 THEN 
+        resultado:=numero1*numero2;
+    END IF;
+    IF operacion = 4 THEN 
+            IF numero2=0 THEN
+            raise_application_error(-20001,'DIVISOR INVALIDO');
+            END IF;
+        resultado:=numero1/numero2;
+    END IF;
+    dbms_output.put_line('RESULTADO:'||resultado);
+
+END;
+-------------------------------------------------------------
+
+DECLARE
+  A NUMBER;
+  B NUMBER;
+  C NUMBER;
+  D NUMBER;
+BEGIN
+  A:=50;
+  B:=10;
+  C:=2;
+  D:=0;
+ calc_2(A,B,C,D);
+END;
